@@ -1,8 +1,4 @@
-﻿using System.IO;
-using System.Text.RegularExpressions;
-using System;
-using System.Runtime.Intrinsics;
-using System.Collections.Specialized;
+﻿using System;
 using System.Numerics;
 
 namespace Formulas
