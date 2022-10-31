@@ -1,18 +1,19 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class CameraMovement : MonoBehaviour
 {
-    // Start is called before the first frame update
-    void Start()
+
+    public Transform Target;
+    Vector3 offset;
+
+    public void Start()
     {
-        
+        offset = transform.position - Target.position;
     }
 
-    // Update is called once per frame
-    void Update()
+    public void LateUpdate()
     {
-        
+        transform.position = offset + Target.position;
     }
+
 }
