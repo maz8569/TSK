@@ -41,8 +41,11 @@ public class SimulationManager : MonoBehaviour
         DistanceToTarget dst = Target.GetComponent<DistanceToTarget>();
         Target.transform.position = MainVehicle.transform.position + new Vector3(dst.sliderDistanceToTargetX.value, 0, dst.sliderDistanceToTargetZ.value);
         Bullet bullet = Bullet.GetComponent<Bullet>();
-        Bullet.transform.position = new Vector3(0, 0, 0);
         bullet.isShoot = false;
+        bullet.timeSpend = 0;
+        bullet.transform.parent = MainVehicle.transform;
+        Bullet.transform.localPosition = new Vector3(0, 1.25f, 0);
+
         Debug.Log("Reset");
     }
 

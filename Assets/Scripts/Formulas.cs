@@ -1,9 +1,11 @@
 ﻿using System;
-using System.Numerics;
+using UnityEngine;
+using UnityEngine.UI;
+using UnityEngine.Events;
 
 namespace Formulas
 {
-    class Formule
+    class Formulas : MonoBehaviour
     {
         static private double bulletBeginVelocity;
         static private double bulletBeginVelocityX;
@@ -14,27 +16,87 @@ namespace Formulas
         static private double g;
         static private double bulletMass;
 
+        public Slider bulletInitialVelocity;
+        public Slider vehicleVelocity;
+        public Slider beth;
+        public Slider aplh;
+
+        private UnityAction<object> onSimulationStateChange;
+
+        public static double BulletBeginVelocityX { get => bulletBeginVelocityX; set {
+                bulletBeginVelocityX = value;
+                Debug.Log("New initial bullet X speed value = " + bulletBeginVelocityX);
+            } }
+        public static double BulletBeginVelocityY { get => bulletBeginVelocityY; set {
+                bulletBeginVelocityY = value;
+                Debug.Log("New initial bullet Y speed value = " + bulletBeginVelocityY);
+            } }
+        public static double CarVelocity { get => carVelocity; set {
+                carVelocity = value;
+                Debug.Log("New car velocity value = " + carVelocity);
+            } }
+        public static double Betha { get => betha; set {
+                betha = value;
+                Debug.Log("New betha value = " + betha);
+            } }
+
+        public static double Alpha { get => alpha; 
+            set { 
+                alpha = value;
+                Debug.Log("New alpha value = " + alpha);
+            }
+        }
+
+        public static double G { get => g;
+            set { 
+                g = value;
+                Debug.Log("New g value = " + g);
+            } 
+        }
+
+        public static double BulletBeginVelocity { get => bulletBeginVelocity; 
+            set { 
+                bulletBeginVelocity = value;
+                Debug.Log("New bullet initial velocity value = " + bulletBeginVelocity);
+            } 
+        }
+
+        private void Awake()
+        {
+            onSimulationStateChange = new UnityAction<object>(OnSimulationStateChange);
+        }
+
+        private void OnEnable()
+        {
+            EventManager.StartListening("SimulationState", onSimulationStateChange);
+        }
+
+        private void OnDisable()
+        {
+            EventManager.StopListening("SimulationState", onSimulationStateChange);
+        }
+
         public static void Init()
         {
-            bulletBeginVelocityX = 1;
-            bulletBeginVelocityY = 1;
-            carVelocity = 1;
-            bulletBeginVelocity = Math.Sqrt( ( ( bulletBeginVelocityX * bulletBeginVelocityX ) + ( bulletBeginVelocityY * bulletBeginVelocityY ) + ( carVelocity * carVelocity ) ) );
+            //BulletBeginVelocity = Math.Sqrt( ( ( BulletBeginVelocityX * BulletBeginVelocityX ) + ( BulletBeginVelocityY * BulletBeginVelocityY ) + ( CarVelocity * CarVelocity ) ) );
+            //Betha = 1;
+            //Alpha = 45;
 
-            betha = 1;
-            alpha = 45;
+            BulletBeginVelocityY = BulletBeginVelocity * Mathf.Sin((float)ConvertToRadians(Alpha));
+            BulletBeginVelocityX = BulletBeginVelocity * Mathf.Cos((float)ConvertToRadians(Alpha));
+
             bulletMass = 1;
 
-            g = 9.81;
+            G = 9.81;
         }
 
         public static Vector3 GetPosition(double time)
         {
             Vector3 position = new Vector3();
 
-            position.X = (float)GetPositionX(time);
-            position.Y = (float)GetPositionY(time);
-            position.Z = (float)GetPositionZ(time);
+            position.x = (float)GetPositionX(time);
+            position.y = (float)GetPositionY(time);
+            position.z = (float)GetPositionZ(time);
 
             return position;
         }
@@ -44,7 +106,7 @@ namespace Formulas
             double result = 0;
 
             //https://matematyka.pl/viewtopic.php?t=157528
-            result = (bulletBeginVelocityX / betha ) * ( 1 - Math.Exp( ( -betha * time ) ) );
+            result = (BulletBeginVelocityX / Betha ) * ( 1 - Math.Exp( ( -Betha * time ) ) );
 
             return result;
         }
@@ -53,7 +115,7 @@ namespace Formulas
         {
             double result = 0;
 
-            result = ( ( bulletBeginVelocityY / betha ) + ( g / ( betha * betha ) ) ) * ( 1 - Math.Exp( ( -betha * time ) ) ) - ( ( g * time ) / betha );
+            result = ( ( BulletBeginVelocityY / Betha ) + ( G / ( Betha * Betha ) ) ) * ( 1 - Math.Exp( ( -Betha * time ) ) ) - ( ( G * time ) / Betha );
 
             return result;
         }
@@ -62,7 +124,7 @@ namespace Formulas
         {
             double result = 0;
 
-            result = (carVelocity / betha ) * ( 1 - Math.Exp( ( -betha * time ) ) );
+            result = (CarVelocity / Betha ) * ( 1 - Math.Exp( ( -Betha * time ) ) );
             return result;
         }
 
@@ -70,9 +132,9 @@ namespace Formulas
         {
             Vector3 velocity = new Vector3();
 
-            velocity.X = (float)GetVelocityX(time);
-            velocity.Y = (float)GetVelocityY(time);
-            velocity.Z = (float)GetVelocityZ(time);
+            velocity.x = (float)GetVelocityX(time);
+            velocity.y = (float)GetVelocityY(time);
+            velocity.z = (float)GetVelocityZ(time);
 
             return velocity;
         }
@@ -90,7 +152,7 @@ namespace Formulas
         {
             double result = 0;
 
-            result = bulletBeginVelocity * Math.Exp( ( -betha * time ) ) * Math.Cos( ConvertToRadians( alpha ) );
+            result = BulletBeginVelocity * Math.Exp( ( -Betha * time ) ) * Math.Cos( ConvertToRadians( Alpha ) );
 
             return result;
         }
@@ -99,7 +161,7 @@ namespace Formulas
         {
             double result = 0;
 
-            result = ( ( ( bulletBeginVelocity * Math.Cos( ConvertToRadians( alpha ) ) ) + ( g / betha ) ) * Math.Exp( ( -betha * time ) ) ) -  ( g / betha );
+            result = ( ( ( BulletBeginVelocity * Math.Cos( ConvertToRadians( Alpha ) ) ) + ( G / Betha ) ) * Math.Exp( ( -Betha * time ) ) ) -  ( G / Betha );
 
             return result;
         }
@@ -108,7 +170,7 @@ namespace Formulas
         {
             double result = 0;
 
-            result = carVelocity * Math.Exp( ( -betha * time ) );
+            result = CarVelocity * Math.Exp( ( -Betha * time ) );
 
             return result;
         }
@@ -117,9 +179,9 @@ namespace Formulas
         {
             Vector3 velocity = new Vector3();
 
-            velocity.X = (float)GetAccelerationX(time);
-            velocity.Y = (float)GetAccelerationY(time);
-            velocity.Z = (float)GetAccelerationZ(time);
+            velocity.x = (float)GetAccelerationX(time);
+            velocity.y = (float)GetAccelerationY(time);
+            velocity.z = (float)GetAccelerationZ(time);
 
             return velocity;
         }
@@ -128,7 +190,7 @@ namespace Formulas
         {
             double result = 0;
 
-            result = -betha * GetVelocityX(time);
+            result = -Betha * GetVelocityX(time);
 
             return result;
         }
@@ -137,7 +199,7 @@ namespace Formulas
         {
             double result = 0;
 
-            result = (-g) - ( betha * GetVelocityY(time) );
+            result = (-G) - ( Betha * GetVelocityY(time) );
 
             return result;
         }
@@ -146,10 +208,25 @@ namespace Formulas
         {
             double result = 0;
 
-            result = -betha * GetVelocityZ(time);
+            result = -Betha * GetVelocityZ(time);
 
             return result;
         }
-        
+
+        private void OnSimulationStateChange(object data)
+        {
+            if ((bool) data)
+            {
+
+                BulletBeginVelocity = bulletInitialVelocity.value;
+                CarVelocity = vehicleVelocity.value;
+                Alpha = aplh.value;
+                Betha = beth.value;
+
+                Init();
+            }
+
+        }
+
     }
 }
