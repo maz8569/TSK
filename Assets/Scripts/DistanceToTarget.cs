@@ -9,6 +9,8 @@ public class DistanceToTarget : MonoBehaviour
     public Transform vehicleTrasnform;
     private void Start()
     {
+        transform.position = vehicleTrasnform.position + new Vector3(sliderDistanceToTargetX.value, 0, sliderDistanceToTargetZ.value);
+
         sliderDistanceToTargetX.onValueChanged.AddListener((v) =>
         {
             transform.position = vehicleTrasnform.position + new Vector3(v, 0, sliderDistanceToTargetZ.value);

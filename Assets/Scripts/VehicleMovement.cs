@@ -11,21 +11,27 @@ public class VehicleMovement : MonoBehaviour
     public Slider sliderZ;
 
     private bool isSimulationActive = false;
+    public float TimeSpeed = 1.0f;
 
-    private UnityAction<object> onSimulationStateChange;
+    private UnityAction<object> onSimulationStateChange; 
+    private UnityAction<object> onSimulationSpeedChange;
+
     private void Awake()
     {
         onSimulationStateChange = new UnityAction<object>(OnSimulationStateChange);
+        onSimulationSpeedChange = new UnityAction<object>(OnSimulationSpeedChange);
     }
 
     private void OnEnable()
     {
         EventManager.StartListening("SimulationState", onSimulationStateChange);
+        EventManager.StartListening("SimulationSpeedChanged", onSimulationSpeedChange);
     }
 
     private void OnDisable()
     {
         EventManager.StopListening("SimulationState", onSimulationStateChange);
+        EventManager.StopListening("SimulationSpeedChanged", onSimulationSpeedChange);
     }
 
     // Start is called before the first frame update
@@ -39,7 +45,7 @@ public class VehicleMovement : MonoBehaviour
     {
         if (isSimulationActive)
         {
-            transform.position += new Vector3(speedX, 0, speedZ) * Time.deltaTime;
+            transform.position += new Vector3(speedX, 0, speedZ) * Time.deltaTime * TimeSpeed;
         }
     }
 
@@ -61,6 +67,11 @@ public class VehicleMovement : MonoBehaviour
 
         }
 
+    }
+
+    private void OnSimulationSpeedChange(object data)
+    {
+        TimeSpeed = (float)data;
     }
 
 }

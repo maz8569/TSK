@@ -7,11 +7,14 @@ public class Bullet : MonoBehaviour
     public Slider initialSpeed;
     private UnityAction<object> onShoot; 
     private UnityAction<object> onSimulationStateChange;
+    private UnityAction<object> onSimulationSpeedChange;
     public bool isShoot; 
-    private bool isSimulationActive = false;
+    public bool isSimulationActive = false;
 
     public float speed = 0.0f;
     public float timeSpend;
+
+    public float TimeSpeed = 1.0f;
 
     public SimulationManager simulationManager;
 
@@ -22,18 +25,21 @@ public class Bullet : MonoBehaviour
     {
         onShoot = new UnityAction<object>(OnShoot);
         onSimulationStateChange = new UnityAction<object>(OnSimulationStateChange);
+        onSimulationSpeedChange = new UnityAction<object>(OnSimulationSpeedChange);
     }
 
     private void OnEnable()
     {
         EventManager.StartListening("Shoot", onShoot);
         EventManager.StartListening("SimulationState", onSimulationStateChange);
+        EventManager.StartListening("SimulationSpeedChanged", onSimulationSpeedChange);
     }
 
     private void OnDisable()
     {
         EventManager.StopListening("Shoot", onShoot);
         EventManager.StopListening("SimulationState", onSimulationStateChange);
+        EventManager.StopListening("SimulationSpeedChanged", onSimulationSpeedChange);
     }
 
     // Start is called before the first frame update
@@ -47,7 +53,7 @@ public class Bullet : MonoBehaviour
     {
         if (isShoot && isSimulationActive)
         {
-            timeSpend += Time.deltaTime;
+            timeSpend += Time.deltaTime * TimeSpeed;
 
             //Debug.Log(Formulas.Formulas.GetPosition(timeSpend));
 
@@ -64,15 +70,16 @@ public class Bullet : MonoBehaviour
         {
             simulationManager.StopSimulation();
             isShoot = false;
+            EventManager.TriggerEvent("Hit", null);
         }
     }
 
     private void OnShoot(object data)
     {
-        Debug.Log("Shoot");
         isShoot = true;
         transform.parent = null;
         initalPosition = transform.position;
+        transform.GetChild(0).gameObject.SetActive(true);
     }
 
     private void OnSimulationStateChange(object data)
@@ -90,10 +97,16 @@ public class Bullet : MonoBehaviour
 
     }
 
+    private void OnSimulationSpeedChange(object data)
+    {
+        TimeSpeed = (float)data;
+    }
+
     private void OnTriggerEnter(Collider other)
     {
-        Debug.Log("hit " + other.name);
         isShoot = false;
+        Debug.Log("hit " + other.name);
+        EventManager.TriggerEvent("Hit", null);
         simulationManager.StopSimulation();
     }
 
