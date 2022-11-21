@@ -12,13 +12,15 @@ public class SimulationManager : MonoBehaviour
     /// 0 - Main camera
     /// 1 - Aiming camera
     /// 2 - Results camera
-    public Camera[] cameras;
+    public GameObject[] cameras;
 
     [Space]
     [Header("Simualted Objects")]
     public GameObject MainVehicle;
     public GameObject Target;
     public GameObject Bullet;
+    public GameObject ShootingCamera;
+    public GameObject BulletHolder;
     [Space]
     public Slider SimulationSpeed;
 
@@ -40,6 +42,11 @@ public class SimulationManager : MonoBehaviour
         EventManager.TriggerEvent("SimulationState", true);
         simulationParams.SetActive(false);
         simulationStopButtons.SetActive(true);
+
+        cameras[0].gameObject.SetActive(false);
+        cameras[1].gameObject.SetActive(true);
+        cameras[2].gameObject.SetActive(false);
+
         Debug.Log("Simulation has started");
     }
 
@@ -50,7 +57,9 @@ public class SimulationManager : MonoBehaviour
         simulationStopButtons.SetActive(false);
 
         crosshair.SetActive(false);
-        ActivateMainCamera();
+        cameras[0].gameObject.SetActive(true);
+        cameras[1].gameObject.SetActive(false);
+        cameras[2].gameObject.SetActive(false);
 
         Debug.Log("Simulation has stoped");
     }
@@ -59,7 +68,7 @@ public class SimulationManager : MonoBehaviour
     {
         EventManager.TriggerEvent("Shoot", null);
         Debug.Log("Shoot");
-        ActivateMainCamera();
+        //ActivateMainCamera();
     }
 
     private void Update()
@@ -70,11 +79,16 @@ public class SimulationManager : MonoBehaviour
             if (crosshair.activeInHierarchy)
             {
                 cameras[0].gameObject.SetActive(false);
-                cameras[1].gameObject.SetActive(true);
+                cameras[1].gameObject.SetActive(false);
+                cameras[2].gameObject.SetActive(true);
+                BulletHolder.transform.parent = ShootingCamera.transform;
             }
             else
             {
-                ActivateMainCamera();
+                cameras[0].gameObject.SetActive(false);
+                cameras[1].gameObject.SetActive(true);
+                cameras[2].gameObject.SetActive(false);
+                BulletHolder.transform.parent = MainVehicle.transform;
             }
         }
     }

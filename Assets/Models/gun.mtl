@@ -1,0 +1,57 @@
+# Blender MTL File: 'car.blend'
+# Material Count: 5
+
+newmtl GROUP01
+Ns 4.100002
+Ka 1.000000 1.000000 1.000000
+Kd 0.500000 0.500000 0.500000
+Ks 1.000000 1.000000 1.000000
+Ke 0.000000 0.000000 0.000000
+Ni 1.450000
+d 1.000000
+illum 2
+map_Kd C:\\Users\\mateu\\Desktop\\14579_open3dmodel — kopia\\14579_open3dmodel\\open3dmodel.com\\UAZ 469 v2\\venek_1.tga
+
+newmtl GROUP03
+Ns 3.400003
+Ka 1.000000 1.000000 1.000000
+Kd 0.500000 0.500000 0.500000
+Ks 1.000000 1.000000 1.000000
+Ke 0.000000 0.000000 0.000000
+Ni 1.450000
+d 1.000000
+illum 2
+map_Kd C:\\Users\\mateu\\Desktop\\14579_open3dmodel — kopia\\14579_open3dmodel\\open3dmodel.com\\UAZ 469 v2\\pk_b.tga
+
+newmtl GROUP04
+Ns 4.499998
+Ka 1.000000 1.000000 1.000000
+Kd 0.500000 0.500000 0.500000
+Ks 1.000000 1.000000 1.000000
+Ke 0.000000 0.000000 0.000000
+Ni 1.450000
+d 1.000000
+illum 2
+map_Kd C:\\Users\\mateu\\Desktop\\14579_open3dmodel — kopia\\14579_open3dmodel\\open3dmodel.com\\UAZ 469 v2\\pk.tga
+
+newmtl GROUP05
+Ns 4.200000
+Ka 1.000000 1.000000 1.000000
+Kd 0.500000 0.500000 0.500000
+Ks 1.000000 1.000000 1.000000
+Ke 0.000000 0.000000 0.000000
+Ni 1.450000
+d 1.000000
+illum 2
+map_Kd C:\\Users\\mateu\\Desktop\\14579_open3dmodel — kopia\\14579_open3dmodel\\open3dmodel.com\\UAZ 469 v2\\pk_naboje.tga
+
+newmtl GROUP12
+Ns 4.200000
+Ka 1.000000 1.000000 1.000000
+Kd 0.500000 0.500000 0.500000
+Ks 1.000000 1.000000 1.000000
+Ke 0.000000 0.000000 0.000000
+Ni 1.450000
+d 1.000000
+illum 2
+map_Kd C:\\Users\\mateu\\Desktop\\14579_open3dmodel — kopia\\14579_open3dmodel\\open3dmodel.com\\UAZ 469 v2\\venek_2.tga

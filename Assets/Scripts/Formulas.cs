@@ -10,17 +10,22 @@ namespace Formulas
         static private double bulletBeginVelocity;
         static private double bulletBeginVelocityX;
         static private double bulletBeginVelocityY;
+        static private double bulletBeginVelocityZ;
         static private double carVelocity;
         static private double betha;
         static private double alpha;
         static private double g;
+        static private double bulletAngle;
         static private double bulletMass;
 
         public Slider bulletInitialVelocity;
         public Slider vehicleVelocity;
         public Slider beth;
-        public Slider aplh;
-
+        //public Slider aplh;
+        //public float aplhaAngle;
+        //public float Bulletang;
+        public Transform cameraToShoot;
+        private UnityAction<object> onShoot;
         private UnityAction<object> onSimulationStateChange;
 
         public static double BulletBeginVelocityX { get => bulletBeginVelocityX; set {
@@ -63,16 +68,19 @@ namespace Formulas
 
         private void Awake()
         {
+            onShoot = new UnityAction<object>(OnShoot);
             onSimulationStateChange = new UnityAction<object>(OnSimulationStateChange);
         }
 
         private void OnEnable()
         {
+            EventManager.StartListening("Shoot", onShoot);
             EventManager.StartListening("SimulationState", onSimulationStateChange);
         }
 
         private void OnDisable()
         {
+            EventManager.StopListening("Shoot", onShoot);
             EventManager.StopListening("SimulationState", onSimulationStateChange);
         }
 
@@ -84,6 +92,9 @@ namespace Formulas
 
             BulletBeginVelocityY = BulletBeginVelocity * Mathf.Sin((float)ConvertToRadians(Alpha));
             BulletBeginVelocityX = BulletBeginVelocity * Mathf.Cos((float)ConvertToRadians(Alpha));
+
+            bulletBeginVelocityZ = BulletBeginVelocityX * Mathf.Sin((float)ConvertToRadians(bulletAngle)) + CarVelocity;
+            BulletBeginVelocityX = BulletBeginVelocityX * Mathf.Cos((float)ConvertToRadians(bulletAngle));
 
             bulletMass = 1;
 
@@ -124,7 +135,7 @@ namespace Formulas
         {
             double result = 0;
 
-            result = (CarVelocity / Betha ) * ( 1 - Math.Exp( ( -Betha * time ) ) );
+            result = (bulletBeginVelocityZ / Betha ) * ( 1 - Math.Exp( ( -Betha * time ) ) );
             return result;
         }
 
@@ -220,12 +231,21 @@ namespace Formulas
 
                 BulletBeginVelocity = bulletInitialVelocity.value;
                 CarVelocity = vehicleVelocity.value;
-                Alpha = aplh.value;
+                //Alpha = aplh.value;
+                
                 Betha = beth.value;
+                //bulletAngle = Bulletang;
 
-                Init();
             }
 
+        }
+
+        private void OnShoot(object data)
+        {
+            Alpha = -cameraToShoot.rotation.eulerAngles.x;
+            bulletAngle = cameraToShoot.rotation.eulerAngles.y;
+
+            Init();
         }
 
     }
