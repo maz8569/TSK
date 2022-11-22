@@ -4,6 +4,8 @@ using UnityEngine.Events;
 
 public class Bullet : MonoBehaviour
 {
+    private Statistics statistics = null;
+
     public Slider initialSpeed;
     private UnityAction<object> onShoot; 
     private UnityAction<object> onSimulationStateChange;
@@ -64,11 +66,16 @@ public class Bullet : MonoBehaviour
                                                 (float)Formulas.Formulas.GetPositionY(timeSpend),
                                                 (float)Formulas.Formulas.GetPositionX(timeSpend));
 
+            statistics.Add(timeSpend, 
+                            transform.position,
+                            Formulas.Formulas.GetVelocity(timeSpend),
+                            Formulas.Formulas.GetAcceleration(timeSpend)
+                            );
         }
 
         if (isShoot && transform.position.y <= -1)
         {
-            simulationManager.StopSimulation();
+            StopSimulation();
             isShoot = false;
             EventManager.TriggerEvent("Hit", null);
         }
@@ -76,6 +83,7 @@ public class Bullet : MonoBehaviour
 
     private void OnShoot(object data)
     {
+        statistics = new Statistics();
         isShoot = true;
         transform.parent = null;
         initalPosition = transform.position;
@@ -108,6 +116,12 @@ public class Bullet : MonoBehaviour
         Debug.Log("hit " + other.name);
         EventManager.TriggerEvent("Hit", null);
         simulationManager.StopSimulation();
+        StopSimulation();
     }
 
+    private void StopSimulation()
+    {
+        statistics.Save();
+        simulationManager.StopSimulation();
+    }
 }

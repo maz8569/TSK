@@ -172,7 +172,7 @@ namespace Formulas
         {
             double result = 0;
 
-            result = ( ( ( BulletBeginVelocity * Math.Cos( ConvertToRadians( Alpha ) ) ) + ( G / Betha ) ) * Math.Exp( ( -Betha * time ) ) ) -  ( G / Betha );
+            result = ( ( ( BulletBeginVelocity * Math.Sin( ConvertToRadians( Alpha ) ) ) + ( G / Betha ) ) * Math.Exp( ( -Betha * time ) ) ) -  ( G / Betha );
 
             return result;
         }
