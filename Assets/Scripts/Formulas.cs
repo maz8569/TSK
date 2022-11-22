@@ -159,7 +159,7 @@ namespace Formulas
             return result;
         }
 
-        public static double GetVelocityX(double time)
+        public static double GetVelocityZ(double time)
         {
             double result = 0;
 
@@ -177,7 +177,7 @@ namespace Formulas
             return result;
         }
 
-        public static double GetVelocityZ(double time)
+        public static double GetVelocityX(double time)
         {
             double result = 0;
 
