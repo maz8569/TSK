@@ -93,7 +93,7 @@ namespace Formulas
             BulletBeginVelocityY = BulletBeginVelocity * Mathf.Sin((float)ConvertToRadians(Alpha));
             BulletBeginVelocityX = BulletBeginVelocity * Mathf.Cos((float)ConvertToRadians(Alpha));
 
-            bulletBeginVelocityZ = BulletBeginVelocityX * Mathf.Sin((float)ConvertToRadians(bulletAngle)) + CarVelocity;
+            bulletBeginVelocityZ = BulletBeginVelocityX * Mathf.Sin((float)ConvertToRadians(bulletAngle)) + carVelocity;
             BulletBeginVelocityX = BulletBeginVelocityX * Mathf.Cos((float)ConvertToRadians(bulletAngle));
 
             bulletMass = 1;

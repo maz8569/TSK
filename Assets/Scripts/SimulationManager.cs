@@ -46,6 +46,7 @@ public class SimulationManager : MonoBehaviour
         cameras[0].gameObject.SetActive(false);
         cameras[1].gameObject.SetActive(true);
         cameras[2].gameObject.SetActive(false);
+        cameras[3].gameObject.SetActive(false);
 
         Debug.Log("Simulation has started");
     }
@@ -60,12 +61,17 @@ public class SimulationManager : MonoBehaviour
         cameras[0].gameObject.SetActive(true);
         cameras[1].gameObject.SetActive(false);
         cameras[2].gameObject.SetActive(false);
+        cameras[3].gameObject.SetActive(false);
 
         Debug.Log("Simulation has stoped");
     }
 
     public void FireShot()
     {
+        cameras[0].gameObject.SetActive(false);
+        cameras[1].gameObject.SetActive(false);
+        cameras[2].gameObject.SetActive(false);
+        cameras[3].gameObject.SetActive(true);
         EventManager.TriggerEvent("Shoot", null);
         Debug.Log("Shoot");
         //ActivateMainCamera();
@@ -81,6 +87,7 @@ public class SimulationManager : MonoBehaviour
                 cameras[0].gameObject.SetActive(false);
                 cameras[1].gameObject.SetActive(false);
                 cameras[2].gameObject.SetActive(true);
+                cameras[3].gameObject.SetActive(false);
                 BulletHolder.transform.parent = ShootingCamera.transform;
             }
             else
@@ -88,6 +95,7 @@ public class SimulationManager : MonoBehaviour
                 cameras[0].gameObject.SetActive(false);
                 cameras[1].gameObject.SetActive(true);
                 cameras[2].gameObject.SetActive(false);
+                cameras[3].gameObject.SetActive(false);
                 BulletHolder.transform.parent = MainVehicle.transform;
             }
         }
