@@ -8,6 +8,7 @@ public class WindowGraph : MonoBehaviour
 {
     [SerializeField] private Sprite circleSprite;
     [SerializeField] private Bullet bullet;
+    public Text titleBar;
     private RectTransform graphContainer;
     private RectTransform labelTemplateX;
     private RectTransform labelTemplateY;
@@ -42,12 +43,15 @@ public class WindowGraph : MonoBehaviour
 
     int currentLink = 0;
     List<Vector2> statLinks = new List<Vector2>();
+    List<string> statLinksName = new List<string>();
 
     public void ButtonNext()
     {
         currentLink++;
         if(currentLink >= statLinks.Count)
             currentLink = 0;
+
+        titleBar.text = statLinksName[currentLink];
 
         Clear();
         LoadStat();
@@ -64,6 +68,8 @@ public class WindowGraph : MonoBehaviour
         currentLink--;
         if(currentLink < 0)
             currentLink = statLinks.Count - 1;
+
+        titleBar.text = statLinksName[currentLink];
 
         Clear();
         LoadStat();
@@ -83,8 +89,11 @@ public class WindowGraph : MonoBehaviour
 
     private void Awake()
     {
+        statLinksName.Add("dystans-wysokosc");
         statLinks.Add(new Vector2(3, 2));
+        statLinksName.Add("czas-predkosc");
         statLinks.Add(new Vector2(0, 7));
+        statLinksName.Add("czas-przyspieszenie");
         statLinks.Add(new Vector2(0, 11));
 
         graphContainer = transform.Find("GraphContainer").GetComponent<RectTransform>();
@@ -121,7 +130,7 @@ public class WindowGraph : MonoBehaviour
         go.GetComponent<Image>().sprite = circleSprite;
         RectTransform rt = go.GetComponent<RectTransform>();
         rt.anchoredPosition = anchoredPosition;
-        rt.sizeDelta = new Vector2(10,10);
+        rt.sizeDelta = new Vector2(3,3);
         rt.anchorMin = new Vector2(0,0);
         rt.anchorMax = new Vector2(0,0);
 
@@ -159,14 +168,24 @@ public class WindowGraph : MonoBehaviour
         float GraphHeight = graphContainer.sizeDelta.y;
 
         float MaxValueX = 0;
-        float MaxValueY = 0;        
+        float MaxValueY = 0;
+        float MinValueX = 1000000;
+        float MinValueY = 1000000;
         
         for(int i = 0; i < points.Count; i++)
         {
             if(MaxValueX < points[i].x)
                 MaxValueX = points[i].x;
+
             if(MaxValueY < points[i].y)
                 MaxValueY = points[i].y;
+
+            if(MinValueX > points[i].x)
+                MinValueX = points[i].x;
+
+            if(MinValueY > points[i].y)
+                MinValueY = points[i].y;
+
         }
 
         float x, y;
