@@ -166,7 +166,6 @@ public class WindowGraph : MonoBehaviour
     {
         float GraphWidht = graphContainer.sizeDelta.x;
         float GraphHeight = graphContainer.sizeDelta.y;
-
         float MaxValueX = 0;
         float MaxValueY = 0;
         float MinValueX = 1000000;
@@ -185,7 +184,6 @@ public class WindowGraph : MonoBehaviour
 
             if(MinValueY > points[i].y)
                 MinValueY = points[i].y;
-
         }
 
         float x, y;
@@ -196,8 +194,11 @@ public class WindowGraph : MonoBehaviour
 
         int next = points.Count / NUMBER_OF_LABEL;
         int a = 0;
-        for(int i = 0; i < NUMBER_OF_LABEL; i++)
+        for(int i = 0; i <= NUMBER_OF_LABEL; i++)
         {
+            if(a >= points.Count)
+                a = points.Count - 1;
+
             x = points[a].x;
             y = points[a].y;
             px = points[a].x / MaxValueX * GraphWidht;
@@ -210,7 +211,7 @@ public class WindowGraph : MonoBehaviour
             labelX.SetParent(graphContainer, false);
             labelX.gameObject.SetActive(true);
             labelX.anchoredPosition = new Vector2(px + 0, -10);
-            labelX.GetComponent<Text>().text = Math.Round(x, 0).ToString();
+            labelX.GetComponent<Text>().text = Math.Round(x, 1).ToString();
             created.Add(labelX.gameObject);
 
             RectTransform dashX = Instantiate(dashTemplateX);
@@ -224,8 +225,8 @@ public class WindowGraph : MonoBehaviour
             RectTransform labelY = Instantiate(labelTemplateY);
             labelY.SetParent(graphContainer, false);
             labelY.gameObject.SetActive(true);
-            labelY.anchoredPosition = new Vector2(-30, py + 0);
-            labelY.GetComponent<Text>().text = Math.Round(y, 0).ToString();
+            labelY.anchoredPosition = new Vector2(-40, py + 0);
+            labelY.GetComponent<Text>().text = Math.Round(y, 1).ToString();
             created.Add(labelY.gameObject);
 
             RectTransform dashY = Instantiate(dashTemplateY);
@@ -240,6 +241,9 @@ public class WindowGraph : MonoBehaviour
         {
             x = points[i].x / MaxValueX * GraphWidht;
             y = points[i].y / MaxValueY * GraphHeight;
+
+            if(y < 0)
+                continue;
 
             GameObject cgo = CreateCircle(new Vector2(x, y));
             if(last_cgo != null)
