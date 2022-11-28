@@ -13,9 +13,21 @@ public class WindowGraph : MonoBehaviour
     private RectTransform dashTemplateX;
     private RectTransform dashTemplateY;
 
-    private int NUMBER_OF_LABEL = 6;
+    private int NUMBER_OF_LABEL = 2;
 
-    private void Awake()
+    private List<GameObject> created = new List<GameObject>();
+
+    public void ButtonNext()
+    {
+
+    }
+
+    public void ButtonBack()
+    {
+
+    }
+
+    private void Start()
     {
         graphContainer = transform.Find("GraphContainer").GetComponent<RectTransform>();
 
@@ -25,21 +37,23 @@ public class WindowGraph : MonoBehaviour
         dashTemplateX = graphContainer.Find("DashTemplateX").GetComponent<RectTransform>();
         dashTemplateY = graphContainer.Find("DashTemplateY").GetComponent<RectTransform>();
 
-        List<Vector2> points = new List<Vector2>();
-        points.Add(new Vector2(0, 0));
-        points.Add(new Vector2(5, 1));
-        points.Add(new Vector2(10, 2));
-        points.Add(new Vector2(15, 4));
-        points.Add(new Vector2(20, 8));
-        points.Add(new Vector2(25, 16));
-        points.Add(new Vector2(30, 32));
-        points.Add(new Vector2(35, 64));
-        points.Add(new Vector2(40, 128));
-        points.Add(new Vector2(45, 200));
-        points.Add(new Vector2(50, 400));
-        points.Add(new Vector2(55, 450));
+        // List<Vector2> points = new List<Vector2>();
+        // points.Add(new Vector2(0, 0));
+        // points.Add(new Vector2(5, 1));
+        // points.Add(new Vector2(10, 2));
+        // points.Add(new Vector2(15, 4));
+        // points.Add(new Vector2(20, 8));
+        // points.Add(new Vector2(25, 16));
+        // points.Add(new Vector2(30, 32));
+        // points.Add(new Vector2(35, 64));
+        // points.Add(new Vector2(40, 128));
+        // points.Add(new Vector2(45, 200));
+        // points.Add(new Vector2(50, 400));
+        // points.Add(new Vector2(55, 450));
 
-        DisplayData(points);
+        // DisplayData(points);
+
+        //Clear();
     }
 
     private GameObject CreateCircle(Vector2 anchoredPosition)
@@ -52,6 +66,8 @@ public class WindowGraph : MonoBehaviour
         rt.sizeDelta = new Vector2(10,10);
         rt.anchorMin = new Vector2(0,0);
         rt.anchorMax = new Vector2(0,0);
+
+        created.Add(go);
         return go;
     }
 
@@ -75,6 +91,8 @@ public class WindowGraph : MonoBehaviour
 
         rt.localEulerAngles = new Vector3(0, 0, (float)angle);
         rt.localScale = new Vector3(1, -1, 1);
+
+        created.Add(go);
     }
 
     private void DisplayData(List<Vector2> points)
@@ -96,6 +114,9 @@ public class WindowGraph : MonoBehaviour
         float x, y;
         float px, py;
 
+        GameObject go = new GameObject("container", typeof(Image));
+        created.Add(go);
+
         int next = points.Count / NUMBER_OF_LABEL;
         int a = 0;
         for(int i = 0; i < NUMBER_OF_LABEL; i++)
@@ -109,26 +130,26 @@ public class WindowGraph : MonoBehaviour
             float normVal = i * 1f / NUMBER_OF_LABEL;
 
             RectTransform labelX = Instantiate(labelTemplateX);
-            labelX.SetParent(graphContainer, false);
+            labelX.SetParent(go.GetComponent<RectTransform>(), false);
             labelX.gameObject.SetActive(true);
             labelX.anchoredPosition = new Vector2(px + 0, -10);
             labelX.GetComponent<Text>().text = Math.Round(x, 0).ToString();
 
             RectTransform dashX = Instantiate(dashTemplateX);
-            dashX.SetParent(graphContainer, false);
+            dashX.SetParent(go.GetComponent<RectTransform>(), false);
             dashX.gameObject.SetActive(true);
             dashX.anchoredPosition = new Vector2(px + 0, 0);
 
             ///...
 
             RectTransform labelY = Instantiate(labelTemplateY);
-            labelY.SetParent(graphContainer, false);
+            labelY.SetParent(go.GetComponent<RectTransform>(), false);
             labelY.gameObject.SetActive(true);
             labelY.anchoredPosition = new Vector2(-30, py + 0);
             labelY.GetComponent<Text>().text = Math.Round(y, 0).ToString();
 
             RectTransform dashY = Instantiate(dashTemplateY);
-            dashY.SetParent(graphContainer, false);
+            dashY.SetParent(go.GetComponent<RectTransform>(), false);
             dashY.gameObject.SetActive(true);
             dashY.anchoredPosition = new Vector2(0, py + 0);
         }
@@ -148,5 +169,11 @@ public class WindowGraph : MonoBehaviour
             }
             last_cgo = cgo;
         }
+    }
+
+    public void Clear()
+    {
+        for(int i = 0; i < created.Count; i++)
+            Destroy(created[i]);
     }
 }
