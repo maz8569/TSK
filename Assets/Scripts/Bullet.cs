@@ -4,7 +4,7 @@ using UnityEngine.Events;
 
 public class Bullet : MonoBehaviour
 {
-    private Statistics statistics = null;
+    public Statistics statistics = null;
 
     public Slider initialSpeed;
     private UnityAction<object> onShoot; 

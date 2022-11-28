@@ -7,28 +7,86 @@ using UnityEngine.UI;
 public class WindowGraph : MonoBehaviour
 {
     [SerializeField] private Sprite circleSprite;
+    [SerializeField] private Bullet bullet;
     private RectTransform graphContainer;
     private RectTransform labelTemplateX;
     private RectTransform labelTemplateY;
     private RectTransform dashTemplateX;
     private RectTransform dashTemplateY;
-
     private int NUMBER_OF_LABEL = 2;
-
     private List<GameObject> created = new List<GameObject>();
+
+    float[,] array = null;
+    private void LoadStat()
+    {
+        array = new float[12, bullet.statistics.stats.Count];
+        for(int i=0; i<bullet.statistics.stats.Count; i++)
+        {
+            array[0, i] = bullet.statistics.stats[i].mTime;
+
+            array[1, i] = bullet.statistics.stats[i].mPosition.x;
+            array[2, i] = bullet.statistics.stats[i].mPosition.y;
+            array[3, i] = bullet.statistics.stats[i].mPosition.z;
+
+            array[4, i] = bullet.statistics.stats[i].mVelocity.x;
+            array[5, i] = bullet.statistics.stats[i].mVelocity.y;
+            array[6, i] = bullet.statistics.stats[i].mVelocity.z;
+            array[7, i] = bullet.statistics.stats[i].mVelocityS;
+
+            array[8, i] = bullet.statistics.stats[i].mAcceleration.x;
+            array[9, i] = bullet.statistics.stats[i].mAcceleration.y;
+            array[10, i] = bullet.statistics.stats[i].mAcceleration.z;
+            array[11, i] = bullet.statistics.stats[i].mAccelerationS;
+        }
+    }
+
+    int currentLink = 0;
+    List<Vector2> statLinks = new List<Vector2>();
 
     public void ButtonNext()
     {
+        currentLink++;
+        if(currentLink >= statLinks.Count)
+            currentLink = 0;
 
+        Clear();
+        LoadStat();
+        List<Vector2> points = new List<Vector2>();
+        for(int i=0; i<bullet.statistics.stats.Count; i++)
+        {
+            points.Add(new Vector2(array[(int)statLinks[currentLink].x, i], array[(int)statLinks[currentLink].y, i]));
+        }
+        DisplayData(points);
     }
 
     public void ButtonBack()
     {
+        currentLink--;
+        if(currentLink < 0)
+            currentLink = statLinks.Count - 1;
 
+        Clear();
+        LoadStat();
+        List<Vector2> points = new List<Vector2>();
+        for(int i=0; i<bullet.statistics.stats.Count; i++)
+        {
+            points.Add(new Vector2(array[(int)statLinks[currentLink].x, i], array[(int)statLinks[currentLink].y, i]));
+        }
+        DisplayData(points);
     }
 
-    private void Start()
+    public void Clear()
     {
+        for(int i = 0; i < created.Count; i++)
+            Destroy(created[i]);
+    }
+
+    private void Awake()
+    {
+        statLinks.Add(new Vector2(3, 2));
+        statLinks.Add(new Vector2(0, 7));
+        statLinks.Add(new Vector2(0, 11));
+
         graphContainer = transform.Find("GraphContainer").GetComponent<RectTransform>();
 
         labelTemplateX = graphContainer.Find("LabelTemplateX").GetComponent<RectTransform>();
@@ -130,28 +188,32 @@ public class WindowGraph : MonoBehaviour
             float normVal = i * 1f / NUMBER_OF_LABEL;
 
             RectTransform labelX = Instantiate(labelTemplateX);
-            labelX.SetParent(go.GetComponent<RectTransform>(), false);
+            labelX.SetParent(graphContainer, false);
             labelX.gameObject.SetActive(true);
             labelX.anchoredPosition = new Vector2(px + 0, -10);
             labelX.GetComponent<Text>().text = Math.Round(x, 0).ToString();
+            created.Add(labelX.gameObject);
 
             RectTransform dashX = Instantiate(dashTemplateX);
-            dashX.SetParent(go.GetComponent<RectTransform>(), false);
+            dashX.SetParent(graphContainer, false);
             dashX.gameObject.SetActive(true);
             dashX.anchoredPosition = new Vector2(px + 0, 0);
+            created.Add(dashX.gameObject);
 
             ///...
 
             RectTransform labelY = Instantiate(labelTemplateY);
-            labelY.SetParent(go.GetComponent<RectTransform>(), false);
+            labelY.SetParent(graphContainer, false);
             labelY.gameObject.SetActive(true);
             labelY.anchoredPosition = new Vector2(-30, py + 0);
             labelY.GetComponent<Text>().text = Math.Round(y, 0).ToString();
+            created.Add(labelY.gameObject);
 
             RectTransform dashY = Instantiate(dashTemplateY);
-            dashY.SetParent(go.GetComponent<RectTransform>(), false);
+            dashY.SetParent(graphContainer, false);
             dashY.gameObject.SetActive(true);
             dashY.anchoredPosition = new Vector2(0, py + 0);
+            created.Add(dashY.gameObject);
         }
 
         GameObject last_cgo = null;
@@ -169,11 +231,5 @@ public class WindowGraph : MonoBehaviour
             }
             last_cgo = cgo;
         }
-    }
-
-    public void Clear()
-    {
-        for(int i = 0; i < created.Count; i++)
-            Destroy(created[i]);
     }
 }

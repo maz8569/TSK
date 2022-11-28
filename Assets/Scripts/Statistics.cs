@@ -7,12 +7,14 @@ using UnityEngine.Events;
 
 public class Statistics
 {
-    private class Stat
+    public class Stat
     {
         public float mTime;
         public Vector3 mPosition;
         public Vector3 mVelocity;
+        public float mVelocityS;
         public Vector3 mAcceleration;
+        public float mAccelerationS;
 
         public Stat(float time, Vector3 position, Vector3 velocity, Vector3 acceleration)
         {
@@ -23,7 +25,7 @@ public class Statistics
         }
     }
 
-    private List<Stat> stats;
+    public List<Stat> stats;
 
     public Statistics()
     {
@@ -46,6 +48,9 @@ public class Statistics
                             (stat.mAcceleration.y * stat.mAcceleration.y) +
                             (stat.mAcceleration.z * stat.mAcceleration.z)
                             ));
+
+            stat.mVelocityS = (float)velocity;
+            stat.mAccelerationS = (float)acceleration;
 
             text += stat.mTime + ";"
                     + stat.mPosition.x + ";"
