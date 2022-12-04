@@ -14,17 +14,17 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   active: 1
   postExposure:
-    m_OverrideState: 1
+    m_OverrideState: 0
     m_Value: 0.5
   contrast:
     m_OverrideState: 1
     m_Value: -15
   colorFilter:
-    m_OverrideState: 1
-    m_Value: {r: 1, g: 1, b: 1, a: 1}
+    m_OverrideState: 0
+    m_Value: {r: 0.70021355, g: 0.8396226, b: 0.82028973, a: 1}
   hueShift:
     m_OverrideState: 0
-    m_Value: 0
+    m_Value: -4
   saturation:
     m_OverrideState: 1
     m_Value: -17
@@ -41,6 +41,7 @@ MonoBehaviour:
   m_Name: PostProcessing Profile
   m_EditorClassIdentifier: 
   components:
+  - {fileID: 1551494780001843464}
   - {fileID: 8496915420040152191}
   - {fileID: 374173209593059338}
   - {fileID: -7801315356398862603}
@@ -72,6 +73,47 @@ MonoBehaviour:
     m_Value: 0.4
   rounded:
     m_OverrideState: 1
+    m_Value: 0
+--- !u!114 &1551494780001843464
+MonoBehaviour:
+  m_ObjectHideFlags: 3
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0b2db86121404754db890f4c8dfe81b2, type: 3}
+  m_Name: Bloom
+  m_EditorClassIdentifier: 
+  active: 1
+  threshold:
+    m_OverrideState: 1
+    m_Value: 0.9
+  intensity:
+    m_OverrideState: 1
+    m_Value: 0.5
+  scatter:
+    m_OverrideState: 1
+    m_Value: 0.5
+  clamp:
+    m_OverrideState: 0
+    m_Value: 2
+  tint:
+    m_OverrideState: 0
+    m_Value: {r: 0.502225, g: 0.8962264, b: 0.6513187, a: 1}
+  highQualityFiltering:
+    m_OverrideState: 0
+    m_Value: 0
+  skipIterations:
+    m_OverrideState: 0
+    m_Value: 1
+  dirtTexture:
+    m_OverrideState: 0
+    m_Value: {fileID: 0}
+    dimension: 1
+  dirtIntensity:
+    m_OverrideState: 0
     m_Value: 0
 --- !u!114 &3729104353981280030
 MonoBehaviour:
@@ -137,8 +179,8 @@ MonoBehaviour:
           inWeight: 0
           outWeight: 0
         - serializedVersion: 3
-          time: 0.6093832
-          value: 0.5284915
+          time: 0.70435274
+          value: 0.5566267
           inSlope: 1
           outSlope: 1
           tangentMode: 0

@@ -103,24 +103,6 @@ public class WindowGraph : MonoBehaviour
 
         dashTemplateX = graphContainer.Find("DashTemplateX").GetComponent<RectTransform>();
         dashTemplateY = graphContainer.Find("DashTemplateY").GetComponent<RectTransform>();
-
-        // List<Vector2> points = new List<Vector2>();
-        // points.Add(new Vector2(0, 0));
-        // points.Add(new Vector2(5, 1));
-        // points.Add(new Vector2(10, 2));
-        // points.Add(new Vector2(15, 4));
-        // points.Add(new Vector2(20, 8));
-        // points.Add(new Vector2(25, 16));
-        // points.Add(new Vector2(30, 32));
-        // points.Add(new Vector2(35, 64));
-        // points.Add(new Vector2(40, 128));
-        // points.Add(new Vector2(45, 200));
-        // points.Add(new Vector2(50, 400));
-        // points.Add(new Vector2(55, 450));
-
-        // DisplayData(points);
-
-        //Clear();
     }
 
     private GameObject CreateCircle(Vector2 anchoredPosition)
@@ -156,7 +138,7 @@ public class WindowGraph : MonoBehaviour
         angle = angle * ( 180 / Math.PI );
         angle -= 90;
 
-        rt.localEulerAngles = new Vector3(0, 0, (float)angle);
+        rt.localEulerAngles = new Vector3(0, 0, -(float)angle);
         rt.localScale = new Vector3(1, -1, 1);
 
         created.Add(go);

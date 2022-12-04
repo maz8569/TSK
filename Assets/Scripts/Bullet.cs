@@ -22,6 +22,11 @@ public class Bullet : MonoBehaviour
 
     public Vector3 initalPosition; 
 
+	[SerializeField] private GameObject toSpawn;
+    [SerializeField] private Transform sphereParent;
+
+    [SerializeField] private float density = 5f;
+    private Vector3 previousPosition;
 
     private void Awake()
     {
@@ -71,6 +76,13 @@ public class Bullet : MonoBehaviour
                             Formulas.Formulas.GetVelocity(timeSpend),
                             Formulas.Formulas.GetAcceleration(timeSpend)
                             );
+			
+			
+			if (Vector3.Distance(transform.position, previousPosition) >= density)
+            {
+                Instantiate(toSpawn, transform.position, Quaternion.identity, sphereParent);
+                previousPosition = transform.position;
+            }
         }
 
         if (isShoot && transform.position.y <= -1)
@@ -87,6 +99,7 @@ public class Bullet : MonoBehaviour
         isShoot = true;
         transform.parent = null;
         initalPosition = transform.position;
+		previousPosition = transform.position;
         transform.GetChild(0).gameObject.SetActive(true);
     }
 

@@ -168,6 +168,7 @@ MonoBehaviour:
   BulletHolder: {fileID: 197518377}
   SimulationSpeed: {fileID: 1694541665}
   wall: {fileID: 1712173488}
+  spheresParent: {fileID: 0}
 --- !u!4 &22848175
 Transform:
   m_ObjectHideFlags: 0
@@ -1723,6 +1724,37 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 262050357}
   m_Mesh: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
+--- !u!1 &266270063
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 266270064}
+  m_Layer: 0
+  m_Name: Spheres
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &266270064
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 266270063}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 73.67481, y: -40.782013, z: 48.482056}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 15
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &269319323
 GameObject:
   m_ObjectHideFlags: 0
@@ -2078,7 +2110,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 324977514}
   m_LocalRotation: {x: 0.20761135, y: 0.35788906, z: -0.08168645, w: 0.9067195}
-  m_LocalPosition: {x: -5.3842955, y: 4.151411, z: -6.1086235}
+  m_LocalPosition: {x: -5.3842955, y: 4.151411, z: -3.1086235}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -2111,7 +2143,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 352705933}
   m_LocalRotation: {x: 0.22414392, y: 0.48296294, z: -0.12940955, w: 0.8365163}
-  m_LocalPosition: {x: -1, y: 1, z: -3}
+  m_LocalPosition: {x: -1, y: 1, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -2137,6 +2169,8 @@ MonoBehaviour:
   startingPosition: {x: 0, y: 0, z: 0}
   startingRotation: {x: 0, y: 0, z: 0}
   heading: {x: 0, y: 0}
+  zoomChangeAmount: 80
+  virtualCamera: {fileID: 324977515}
 --- !u!1 &373092961
 GameObject:
   m_ObjectHideFlags: 0
@@ -2584,7 +2618,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!114 &460967826
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -5638,7 +5672,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1109332713}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -1, y: 0.25, z: -3}
+  m_LocalPosition: {x: -1, y: 0.25, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -7072,6 +7106,9 @@ MonoBehaviour:
   TimeSpeed: 1
   simulationManager: {fileID: 22848174}
   initalPosition: {x: 0, y: 0, z: 0}
+  toSpawn: {fileID: 2320515902786642569, guid: 7022ad63756af5c4fb747357c60be6e9, type: 3}
+  sphereParent: {fileID: 266270064}
+  density: 5
 --- !u!135 &1371722823
 SphereCollider:
   m_ObjectHideFlags: 0
@@ -9239,7 +9276,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: dfdc2249589c50046afe76b906d268de, type: 2}
+  - {fileID: 2100000, guid: f345b582efb109b43be404bfcdb3713f, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -10308,7 +10345,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1960856035}
   m_LocalRotation: {x: 0.22414392, y: 0.48296294, z: -0.12940955, w: 0.8365163}
-  m_LocalPosition: {x: -5.3842955, y: 4.151411, z: -6.1086235}
+  m_LocalPosition: {x: -5.3842955, y: 4.151411, z: -3.1086235}
   m_LocalScale: {x: 1.0000005, y: 1.0000001, z: 1.0000005}
   m_ConstrainProportionsScale: 0
   m_Children:

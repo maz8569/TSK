@@ -15,6 +15,7 @@ public class WallMeshGenerator : MonoBehaviour
     public float second = 0;
     private UnityAction<object> onShoot;
     private UnityAction<object> onHit;
+
     private void Awake()
     {
         onShoot = new UnityAction<object>(OnShoot);

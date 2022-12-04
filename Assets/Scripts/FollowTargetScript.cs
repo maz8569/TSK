@@ -1,3 +1,4 @@
+using Cinemachine;
 using UnityEngine;
 using UnityEngine.Events;
 
@@ -20,6 +21,9 @@ public class FollowTargetScript : MonoBehaviour
     Vector2 p2;
 
     private UnityAction<object> onSimulationStateChange;
+    public float zoomChangeAmount = 80.0f;
+
+    [SerializeField] private Cinemachine.CinemachineVirtualCamera virtualCamera;
 
     private void Start()
     {
@@ -84,6 +88,19 @@ public class FollowTargetScript : MonoBehaviour
                 transform.rotation = Quaternion.Euler(transform.eulerAngles.x - dy, transform.eulerAngles.y + dx, transform.eulerAngles.z) ;
                 p1 = p2;
             }
+
+            if (Input.mouseScrollDelta.y > 0)
+            {
+                virtualCamera.GetComponent<CinemachineVirtualCamera>().GetCinemachineComponent<Cinemachine3rdPersonFollow>().CameraDistance -= zoomChangeAmount * Time.deltaTime;
+            }
+
+            if (Input.mouseScrollDelta.y < 0)
+            {
+                virtualCamera.GetComponent<CinemachineVirtualCamera>().GetCinemachineComponent<Cinemachine3rdPersonFollow>().CameraDistance += zoomChangeAmount * Time.deltaTime;
+            }
+
+            virtualCamera.GetComponent<CinemachineVirtualCamera>().GetCinemachineComponent<Cinemachine3rdPersonFollow>().CameraDistance = Mathf.Clamp(
+                virtualCamera.GetComponent<CinemachineVirtualCamera>().GetCinemachineComponent<Cinemachine3rdPersonFollow>().CameraDistance, 2f, 40f);
         }
     }
 

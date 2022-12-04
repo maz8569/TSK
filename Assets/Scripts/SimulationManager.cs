@@ -26,6 +26,8 @@ public class SimulationManager : MonoBehaviour
 
     public WallMeshGenerator wall;
 
+    [SerializeField] private Transform spheresParent;
+
     private void Start()
     {
         EventManager.TriggerEvent("SimulationSpeedChanged", SimulationSpeed.value);
@@ -72,6 +74,9 @@ public class SimulationManager : MonoBehaviour
         cameras[1].gameObject.SetActive(false);
         cameras[2].gameObject.SetActive(false);
         cameras[3].gameObject.SetActive(true);
+
+        SimulationSpeed.value = 0.05f;
+
         EventManager.TriggerEvent("Shoot", null);
         Debug.Log("Shoot");
         //ActivateMainCamera();
@@ -120,6 +125,11 @@ public class SimulationManager : MonoBehaviour
         Bullet.transform.localPosition = new Vector3(0, 2.26f, 0);
         Bullet.transform.GetChild(0).gameObject.SetActive(false);
         wall.ClearVertices();
+        wall.GetComponent<MeshRenderer>().enabled = false;
+        foreach (Transform child in spheresParent)
+        {
+            Destroy(child.gameObject);
+        }
         Debug.Log("Reset");
     }
 
